@@ -1,0 +1,51 @@
+import { Container } from "./styles";
+import { useContext } from "react";
+import { useTransactions } from "../../hooks/useTransactions";
+
+
+
+
+export function TransactionsTable() {
+
+    const {transactions} = useTransactions();
+   
+
+    return (
+        <Container>
+            <table>
+                <tr>
+                    <th>Titulo </th>
+
+                    <th>Valor </th>
+
+                    <th>Categoria</th>
+
+                    <th>Data</th>
+                </tr>
+
+                <tbody>
+                    {transactions.map((transaction) => {
+                        return (
+                            <tr key={transaction.id}>
+                                <td>{transaction.title}</td>
+                                <td className={transaction.type}>
+                                    {/*Formatando o numero*/}
+                                    {new Intl.NumberFormat('pt-BR', {
+                                        style: "currency",
+                                        currency: "BRL"
+                                    }).format(transaction.amount)
+                                    } </td>
+                                <td>{transaction.category}</td>
+                                <td>{/*Formatando a data*/}
+                                    {new Intl.DateTimeFormat('pt-BR').format(new Date(transaction.createdAt))
+                                    } </td>
+                            </tr>
+                        )
+                    })}
+
+
+                </tbody>
+            </table>
+        </Container>
+    )
+}
